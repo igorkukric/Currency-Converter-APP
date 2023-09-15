@@ -96,7 +96,7 @@ body::after {
     margin-top: 20px;
 }
 
-.container form .form, .container form .to {
+.container form .from, .container form .to {
     width: 100%;
 }
 
