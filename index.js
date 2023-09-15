@@ -47,13 +47,34 @@ async function getExchangeRate() {
   exRateTxt.innerText = "Getting exchange rate...";
   try {
     const response = await fetch(
-      `https://v6.exchangerate-api.com/v6/149aea97991275ee88700935/latest${fromCur.value}`
-    );
+      `https://v6.exchangerate-api.com/v6/149aea97991275ee88700935/latest/${fromCur.value}`);
     const result = await response.json();
     const exchangerate = result.conversion_rates[toCur.value];
-    const totalExRate = (amount * exchangerate).toFixed(2);
+    const totalExRate = (amountVal * exchangerate).toFixed(2);
     exRateTxt.innerText = `${amountVal} ${fromCur.value} = ${totalExRate} ${toCur.value}`;
   } catch (error) {
     exRateTxt.innerText = "Something went wrong";
   }
 }
+
+// Event listeners for button and exchange icon click
+
+window.addEventListener("load", getExchangeRate);
+getBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  getExchangeRate();
+});
+
+exIcon.addEventListener("click", () => {
+  const [fromValue, toValue] = [toCur, fromCur];
+
+  [fromValue, toValue].forEach((select) => {
+    const code = select.value;
+    const imgTag = select.parentElement.querySelector("img");
+    imgTag.src = `https://flagcdn.com/48x36/${Country_list[
+      code
+    ].toLowerCase()}.png`;
+  });
+
+  getExchangeRate();
+});
